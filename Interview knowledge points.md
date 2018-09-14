@@ -54,6 +54,8 @@
 * 排序
 * 有限的内存中，计算出大文档计算出复重度最高的前十个URL
 * RSA,AES,hmac_sha1,md5,crc32
+* map的LRU原理
+* hashmap 与 多阶hash
 
 ### TCP & UDP
 * TCP & UDP 区别
