@@ -43,6 +43,7 @@
 ### 协议相关
 * Https原理 
 * Http
+* mqtt
 * 物联网协议有哪些
 
 ### C++基础相关
@@ -56,6 +57,10 @@
 * RSA,AES,hmac_sha1,md5,crc32
 * map的LRU原理
 * hashmap 与 多阶hash
+
+### 消息队列
+* kafka
+* rabbit mq
 
 ### TCP & UDP
 * TCP & UDP 区别
@@ -75,3 +80,4 @@
 * 阿里如快速将已排序的队列打散，越散越好？
 * 配置中心的设计
 * 频率限制的设计
+* 商品抢购
