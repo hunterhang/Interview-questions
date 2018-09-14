@@ -17,9 +17,50 @@
 ### Mysql的主从一致性校验
 >主从一致性校验有多种工具 例如checksum、mysqldiff、pt-table-checksum等;
 
-### Mysql 锁原理
 
-### Mysql 乐观锁与悲观锁
+### Mysql 乐观锁与悲观锁，行锁与表锁
+* 只有通过索引条件检索数据，InnoDB才使用行级锁，否则，InnoDB将使用表锁！
+* for update 只能在begin,commit中使用，申请排它锁才有效；
+> 
+>假设有A、B两个用户同时各购买一件 id=1 的商品，用户A获取到的库存量为 1000，用户B获取到的库存量也为 1000，用户A完成购买后修改该商品的库存量为 999，用户B完成购买后修改该商品的库存量为 999，此时库存量数据产生了不一致。
+```
+CREATE TABLE `goods` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_name` (`name`) USING HASH
+) ENGINE=InnoDB 
+```
+>
+* 悲观锁方案：悲观锁适合写入频繁的场景。
+>begin;
+select * from goods where id = 1 for update;
+update goods set stock = stock - 1 where id = 1;
+commit;
+>
+* 乐观锁方案：乐观锁适合读取频繁的场景。
+>#不加锁获取 id=1 的商品对象
+```
+select * from goods where id = 1
+begin;
+update goods set stock = stock - 1 where id = 1 and stock = cur_stock;
+commit;
+```
+>
+* 带主键或者索引的查询，产生行锁。此时没查询到结果，则不产生锁，如果主键为<>，则产生表锁；
+>
+```
+begin;
+select * from goods where id = 1 and name='prod11' for update;
+commit;
+```
+* 不带索引，不带主键的查询为表锁
+```
+begin;
+select * from goods where name='prod11' for update;
+commit;
+```
 
 ### Mysql MVCC
 
