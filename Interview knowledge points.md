@@ -58,9 +58,11 @@
 * map的LRU原理
 * hashmap 与 多阶hash
 
-### 消息队列
+### 开源组件
 * kafka
 * rabbit mq
+* zookeeper
+
 
 ### TCP & UDP
 * TCP & UDP 区别
